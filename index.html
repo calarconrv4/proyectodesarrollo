@@ -1,6 +1,1352 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv='refresh' content='0; URL= pages/principal.html'>
-  </head>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <title>
+    Proyecto Desarrollos
+  </title>
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <!-- Nucleo Icons -->
+  <link href="assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <!-- CSS Files -->
+  <link id="pagestyle" href="assets/css/material-dashboard.css?v=3.0.4" rel="stylesheet" />
+  <!-- MapBox -->
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js'></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.4.0/mapbox-gl-draw.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.4.0/mapbox-gl-draw.css" type="text/css">
+
+    <!-- Agregar las hojas de estilo de noUiSlider -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.4/nouislider.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.4/nouislider.pips.min.css" />
+
+    <!-- Agregar la biblioteca de noUiSlider -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.4/nouislider.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.4/nouislider.pips.min.js"></script>
+
+    <!-- Agrega esta etiqueta en el head de tu HTML -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+
+    <!-- Agrega esta etiqueta al final del body de tu HTML -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/js/all.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+
+        #shop-count {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        }
+
+        .amenity-row {
+        display: flex;
+        justify-content: space-between;
+        }
+
+        .amenity-name {
+        font-weight: bold;
+        }
+
+        .amenity-value {
+        margin-left: 10px;
+        }
+      
+      /* Shop */
+        #amenities-count {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        }
+
+        .shop-row {
+        display: flex;
+        justify-content: space-between;
+        }
+
+        .shop-name {
+        font-weight: bold;
+        }
+
+        .shop-value {
+        margin-left: 10px;
+        }
+
+       /* Leisure */
+        #leisure-count {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        }
+
+        .leisure-row {
+        display: flex;
+        justify-content: space-between;
+        }
+
+        .leisure-name {
+        font-weight: bold;
+        }
+
+        .leisure-value {
+        margin-left: 10px;
+        }
+
+        #layer-list {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 1;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 10px;
+        border-radius: 5px;
+      }
+      .layer-item {
+        margin-bottom: 5px;
+      }
+
+      #menu {
+      background: #fff;
+      position: absolute;
+      z-index: 1;
+      top: 10px;
+      right: 10px;
+      border-radius: 3px;
+      width: 120px;
+      border: 1px solid rgba(0, 0, 0, 0.4);
+      font-family: 'Open Sans', sans-serif;
+      }
+      
+      #menu a {
+      font-size: 13px;
+      color: #404040;
+      display: block;
+      margin: 0;
+      padding: 0;
+      padding: 10px;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+      text-align: center;
+      }
+      
+      #menu a:last-child {
+      border: none;
+      }
+      
+      #menu a:hover {
+      background-color: #f8f8f8;
+      color: #404040;
+      }
+      
+      #menu a.active {
+      background-color: #3887be;
+      color: #ffffff;
+      }
+      
+      #menu a.active:hover {
+      background: #3074a4;
+      }
+
+      .circle-icon1 {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #FF5733; /* reemplaza con el color que desees */
+      margin-right: 5px;
+    }
+
+    .circle-icon2 {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #001bff; /* reemplaza con el color que desees */
+      margin-right: 5px;
+    }
+
+    .circle-icon3 {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #36FF33; /* reemplaza con el color que desees */
+      margin-right: 5px;
+    }
+
+    </style>
+
+
+</head>
+
+<body class="g-sidenav-show  bg-gray-200">
+
+      
+    <div class="container-fluid py-4">
+        <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
+            <div class="sidenav-header">
+              <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+              <a class="navbar-brand m-0" href=# target="_blank">
+                <img src="assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
+                <span class="ms-1 font-weight-bold text-white">Proyecto Desarrollos</span>
+              </a>
+            </div>
+            <hr class="horizontal light mt-0 mb-2">
+            <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link text-white active bg-gradient-primary" href=#>
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                      <i class="material-icons opacity-10">dashboard</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Dashboard</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white " href="../pages/tables.html">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                      <i class="material-icons opacity-10">table_view</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Nuevo Proyecto</span>
+                  </a>
+                </li>
+                <!--<li class="nav-item">
+                  <a class="nav-link text-white " href="../pages/billing.html">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                      <i class="material-icons opacity-10">receipt_long</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Billing</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white " href="../pages/virtual-reality.html">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                      <i class="material-icons opacity-10">view_in_ar</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Virtual Reality</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white " href="../pages/rtl.html">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                      <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
+                    </div>
+                    <span class="nav-link-text ms-1">RTL</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white " href="../pages/notifications.html">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                      <i class="material-icons opacity-10">notifications</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Notifications</span>
+                  </a>
+                </li>
+                <li class="nav-item mt-3">
+                  <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white " href="../pages/profile.html">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                      <i class="material-icons opacity-10">person</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Profile</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white " href="../pages/sign-in.html">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                      <i class="material-icons opacity-10">login</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Sign In</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white " href="../pages/sign-up.html">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                      <i class="material-icons opacity-10">assignment</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Sign Up</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="sidenav-footer position-absolute w-100 bottom-0 ">
+              <div class="mx-3">
+                <a class="btn bg-gradient-primary mt-4 w-100" href="https://www.creative-tim.com/product/material-dashboard-pro?ref=sidebarfree" type="button">Upgrade to pro</a>
+              </div>
+            </div>-->
+        </aside>
+      <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+
+            <!-- Navbar -->
+            <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+              <div class="container-fluid py-1 px-3">
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
+                  </ol>
+                <!--  <h6 class="font-weight-bolder mb-0">Dashboard</h6> -->
+                </nav>
+                <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                  <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                    <!-- <div class="input-group input-group-outline">
+                      <label class="form-label">Type here...</label>
+                      <input type="text" class="form-control">
+                    </div> -->
+                  </div>
+                  <ul class="navbar-nav  justify-content-end">
+                    <!-- <li class="nav-item d-flex align-items-center">
+                      <a class="btn btn-outline-primary btn-sm mb-0 me-3" target="_blank" href="https://www.creative-tim.com/builder/material?ref=navbar-dashboard">Online Builder</a>
+                    </li> -->
+                    <li class="nav-item d-flex align-items-center">
+                      <!-- <a href="../pages/sign-in.html" class="nav-link text-body font-weight-bold px-0"> -->
+                        <i class="fa fa-user me-sm-1"></i>
+                        <span class="d-sm-inline d-none">Sign In</span>
+                      </a>
+                    </li>
+                   <!-- <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                      <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                        <div class="sidenav-toggler-inner">
+                          <i class="sidenav-toggler-line"></i>
+                          <i class="sidenav-toggler-line"></i>
+                          <i class="sidenav-toggler-line"></i>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="nav-item px-3 d-flex align-items-center">
+                      <a href="javascript:;" class="nav-link text-body p-0">
+                        <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+                      </a>
+                    </li>
+                     <li class="nav-item dropdown pe-2 d-flex align-items-center">
+                      <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-bell cursor-pointer"></i>
+                      </a>
+                      <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+                        <li class="mb-2">
+                          <a class="dropdown-item border-radius-md" href="javascript:;">
+                            <div class="d-flex py-1">
+                              <div class="my-auto">
+                                <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
+                              </div>
+                              <div class="d-flex flex-column justify-content-center">
+                                <h6 class="text-sm font-weight-normal mb-1">
+                                  <span class="font-weight-bold">New message</span> from Laur
+                                </h6>
+                                <p class="text-xs text-secondary mb-0">
+                                  <i class="fa fa-clock me-1"></i>
+                                  13 minutes ago
+                                </p>
+                              </div>
+                            </div>
+                          </a>
+                        </li>
+                        <li class="mb-2">
+                          <a class="dropdown-item border-radius-md" href="javascript:;">
+                            <div class="d-flex py-1">
+                              <div class="my-auto">
+                                <img src="../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm bg-gradient-dark  me-3 ">
+                              </div>
+                              <div class="d-flex flex-column justify-content-center">
+                                <h6 class="text-sm font-weight-normal mb-1">
+                                  <span class="font-weight-bold">New album</span> by Travis Scott
+                                </h6>
+                                <p class="text-xs text-secondary mb-0">
+                                  <i class="fa fa-clock me-1"></i>
+                                  1 day
+                                </p>
+                              </div>
+                            </div>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item border-radius-md" href="javascript:;">
+                            <div class="d-flex py-1">
+                              <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
+                                <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                  <title>credit-card</title>
+                                  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                                      <g transform="translate(1716.000000, 291.000000)">
+                                        <g transform="translate(453.000000, 454.000000)">
+                                          <path class="color-background" d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z" opacity="0.593633743"></path>
+                                          <path class="color-background" d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"></path>
+                                        </g>
+                                      </g>
+                                    </g>
+                                  </g>
+                                </svg>
+                              </div>
+                              <div class="d-flex flex-column justify-content-center">
+                                <h6 class="text-sm font-weight-normal mb-1">
+                                  Payment successfully completed
+                                </h6>
+                                <p class="text-xs text-secondary mb-0">
+                                  <i class="fa fa-clock me-1"></i>
+                                  2 days
+                                </p>
+                              </div>
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </li> -->
+                  </ul>
+                </div>
+              </div>
+            </nav>
+            <!-- End Navbar -->
+
+        <!-- Mapa Principal -->
+        <div class="row">
+            <!-- <div class="row mt-4"> -->
+            <div class="row min-vh-800">
+                <div class="col-lg-8 col-md-12 mt-4 mb-4">
+                    <div class="card h-80">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h5 class="text-white text-capitalize ps-3">Mapa</h5>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                          <div id="map" class="mt-0 min-height-600"></div>
+                        </div>
+                        <div class="calculation-box">
+                            <div id="calculated-area"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-12 mt-4 mb-4">
+                  <div class="card h-80">
+                      <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                          <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                          <h5 class="text-white text-capitalize ps-3">Evaluación</h5>
+                          </div>
+                      </div>
+                      <div class="card-body">
+                          <form id="evaluacion" name="" method="post">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="input-group input-group-outline my-3">
+                                    <label class="form-label">Precio M2</label>
+                                    <input type="number" class="form-control">
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="input-group input-group-outline my-3">
+                                    <label class="form-label">% Utilizable</label>
+                                    <input type="number" class="form-control">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="input-group input-group-outline my-3">
+                                    <label class="form-label">Velocidad</label>
+                                    <input type="number" class="form-control">
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="input-group input-group-outline my-3">
+                                    <label class="form-label">Uso</label>
+                                    <input type="number" class="form-control">
+                                  </div>
+                                </div>
+                              </div>
+                          </form>
+                          <div>
+                            <hr class="horizontal dark my-sm-4">
+                            <a class="btn bg-gradient-info w-100" href=#>Calcular</a>
+                            <hr class="horizontal dark my-sm-4">
+                          </div>
+                          
+                      </div>
+                      <div class="calculation-box">
+                          <div id="calculated-area"></div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <!-- Fin Mapa Principal -->
+
+            <!-- Inicia Tablas -->
+        <div class="row"></div>
+          <div class="row min-vh-800">
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-40">
+                    <div class="card-body p-3">
+                            <span class="circle-icon1"></span>
+                            <h6 class="mb-0 ">Criterio 1</h6>
+                            <p class="text-sm ">500 m</p>
+                            <hr class="dark horizontal">
+                            <div id="panel" class="max-width-300">
+                              <div id="amenities-count"></div>
+
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-40">
+                    <div class="card-body p-3">
+                            <span class="circle-icon2"></span>
+                            <h6 class="mb-0 ">Criterio 2</h6>
+                            <p class="text-sm ">500 m</p>
+                            <hr class="dark horizontal">
+                            <div id="panel" class="max-width-300">
+                              <div id="shop-count"></div>
+
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="card h-40">
+                  <div class="card-body p-3">
+                          <span class="circle-icon3"></span>
+                          <h6 class="mb-0 ">Criterio 3</h6>
+                          <p class="text-sm ">500 m</p>
+                          <hr class="dark horizontal">
+                          <div id="panel" class="max-width-300">
+                            <div id="leisures-count"></div>
+                          </div>
+                      </div>
+                  </div>
+            </div>
+          </div>
+
+
+            <!-- Fin Tablas -->
+
+    
+             <!-- Footer
+            <footer class="footer py-4  ">
+                <div class="container-fluid">
+                    <div class="row align-items-center justify-content-lg-between">
+                        <div class="col-lg-6 mb-lg-0 mb-4">
+                            <div class="copyright text-center text-sm text-muted text-lg-start">
+                            © <script>
+                                document.write(new Date().getFullYear())
+                            </script>,
+                            made with <i class="fa fa-heart"></i> by
+                            <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
+                            for a better web.
+                            </div>
+                    </div>
+                        <div class="col-lg-6">
+                            <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                                <li class="nav-item">
+                                    <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </footer> -->
+        </div>
+      </main>
+
+       <!-- Panel Derecho -->
+
+      <div class="fixed-plugin">
+        <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+          <i class="material-icons py-2">settings</i>
+        </a>
+        <div class="card shadow-lg">
+          <div class="card-header pb-0 pt-3">
+            <div class="float-start">
+              <h5 class="mt-3 mb-0">Configuración</h5>
+              <p>Configuración Visualización</p>
+            </div>
+            <div class="float-end mt-4">
+              <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
+                <i class="material-icons">clear</i>
+              </button>
+            </div>
+            <!-- End Toggle Button -->
+          </div>
+          <hr class="horizontal dark my-1">
+          <div class="card-body pt-sm-3 pt-0">
+            <!-- Sidebar Backgrounds -->
+            <div>
+              <h6 class="mb-0">Tipo Mapa</h6>
+            </div>
+            <a href="javascript:void(0)" class="switch-trigger background-color">
+              <div id="style-selector">
+                <label for="style">Estilo de Mapa:</label>
+                <select id="style">
+                  <option value="mapbox://styles/mapbox/satellite-streets-v11">Default</option>
+                  <option value="mapbox://styles/mapbox/streets-v11?optimize=true">Calles</option>
+                  <option value="mapbox://styles/mapbox/satellite-streets-v11">Satélite con calles</option>
+                  <option value="mapbox://styles/mapbox/satellite-v9">Satélite</option>
+                  <option value="mapbox://styles/mapbox/light-v10">Claro</option>
+                  <option value="mapbox://styles/mapbox/dark-v10">Oscuro</option>
+                  <option value="mapbox://styles/mapbox/outdoors-v11">Outdoor</option>
+                </select>        
+              </div>
+            </a>
+            <hr class="horizontal dark my-4">
+            <!-- Sidenav Type -->
+            <a>
+              <div class="d-flex">
+                <div class="mt-3">
+                  <h6 class="mb-0">Distancia de busqueda</h6>
+                  <p class="text-sm">100 - 2000</p>
+                  <p></p>
+                </div>
+              </div>
+            </a>
+            
+           <!-- <div class="d-flex">
+              <button class="btn bg-gradient-dark px-3 mb-2 active" data-class="bg-gradient-dark" onclick="sidebarType(this)">Dark</button>
+              <button class="btn bg-gradient-dark px-3 mb-2 ms-2" data-class="bg-transparent" onclick="sidebarType(this)">Transparent</button>
+              <button class="btn bg-gradient-dark px-3 mb-2 ms-2" data-class="bg-white" onclick="sidebarType(this)">White</button>
+            </div> -->
+          <div class="card-body pt-sm-3 pt-0">
+              <div id="slider"></div>
+             <!-- <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p> -->
+          </div>
+          <hr> 
+
+          </hr>
+
+          <hr class="horizontal dark my-4">
+
+         <!-- Sidebar Backgrounds -->
+         <div>
+          <h6 class="mb-0">Criterios de busqueda</h6>
+        </div>
+        <a href="javascript:void(0)" class="switch-trigger background-color">
+          <div id="criterio1">
+            <label for="criterio_1">Criterio 1:</label>
+            <select id="CriterioBusqueda1">
+              <option value="amenity">Amenidades</option>
+              <option value="shop">Comercios</option>
+              <option value="leisure">Entretenimiento</option>
+              <option value="tourism">Turismo</option>
+              <option value="building">Edificios</option>
+              <option value="landuse">Otros usos</option>
+              
+            </select>        
+          </div>
+          <div id="criterio2">
+            <label for="criterio2">Criterio 2:</label>
+            <select id="CriterioBusqueda2">
+              <option value="amenity">Amenidades</option>
+              <option value="shop">Comercios</option>
+              <option value="leisure">Entretenimiento</option>
+              <option value="tourism">Turismo</option>
+              <option value="building">Edificios</option>
+              <option value="landuse">Otros usos</option>
+            </select>        
+          </div>
+          <div id="criterio3">
+            <label for="criterio3">Criterio 3:</label>
+            <select id="CriterioBusqueda3">
+              <option value="amenity">Amenidades</option>
+              <option value="shop">Comercios</option>
+              <option value="leisure">Entretenimiento</option>
+              <option value="tourism">Turismo</option>
+              <option value="building">Edificios</option>
+              <option value="landuse">Otros usos</option>
+            </select>        
+          </div>
+        </a>
+        
+        <!-- Sidenav Type -->
+            <hr class="horizontal dark my-3">
+            <div class="mt-2 d-flex">
+              <h6 class="mb-0">Tema Oscuro</h6>
+              <div class="form-check form-switch ps-0 ms-auto my-auto">
+                <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
+              </div>
+            </div>
+           <!-- <hr class="horizontal dark my-sm-4">
+            <a class="btn bg-gradient-info w-100" href="https://www.creative-tim.com/product/material-dashboard-pro">Free Download</a>
+            <a class="btn btn-outline-dark w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/overview/material-dashboard">View documentation</a>
+            <div class="w-100 text-center">
+              <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/material-dashboard on GitHub">Star</a>
+              <h6 class="mt-3">Thank you for sharing!</h6>
+              <a href="https://twitter.com/intent/tweet?text=Check%20Material%20UI%20Dashboard%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23bootstrap5&amp;url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fsoft-ui-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
+                <i class="fab fa-twitter me-1" aria-hidden="true"></i> Tweet
+              </a>
+              <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/material-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
+                <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
+              </a>
+            </div>
+          </div> -->
+        </div>
+      </div>
+
+      <!--   Core JS Files   -->
+      <script src="assets/js/core/popper.min.js"></script>
+      <script src="assets/js/core/bootstrap.min.js"></script>
+      <script src="assets/js/plugins/perfect-scrollbar.min.js"></script>
+      <script src="assets/js/plugins/smooth-scrollbar.min.js"></script>
+      <script src="assets/js/plugins/chartjs.min.js"></script>
+      </script>
+      <!-- Github buttons -->
+      <script async defer src="https://buttons.github.io/buttons.js"></script>
+      <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+      <script src="assets/js/material-dashboard.min.js?v=3.0.4"></script>
+      <script>
+            mapboxgl.accessToken = 'pk.eyJ1IjoiY2FsYXJjb24iLCJhIjoiY2w1bGdwcG1nMDFicjNicWlmcGVuN2JrdyJ9.7_1YOzG2Yjwr4trkN6bGbQ';
+
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/satellite-streets-v11',
+                center: [-90.53, 14.6], // Coordenadas del centro del mapa
+                zoom: 13 // Nivel de zoom inicial
+            });
+
+          //var LayersId = ['draw', 'shops'];
+
+            // Ajusta el tamaño del mapa al contenedor "content"
+            map.on('load', function() {
+                map.resize();
+            });
+
+            // Add geolocate control to the map
+            map.addControl(new mapboxgl.GeolocateControl({
+                positionOptions: {
+                enableHighAccuracy: true
+            },
+                trackUserLocation: true
+            }));
+
+            // Add navigation control to the map
+            map.addControl(new mapboxgl.NavigationControl());
+
+            // Add scale control to the map
+            map.addControl(new mapboxgl.ScaleControl());
+
+            // Obtener el selector de estilo
+            var styleSelector = document.getElementById('style');
+
+            // Agregar un evento de cambio al selector de estilo
+            styleSelector.addEventListener('change', function() {
+              // Obtener el valor seleccionado
+              var selectedStyle = styleSelector.value;
+                
+              // Actualizar el estilo del mapa
+              map.setStyle(selectedStyle);
+            });
+
+            var draw = new MapboxDraw({
+                displayControlsDefault: false,
+                controls: {
+                polygon: true,
+                trash: true
+                }
+            });
+            map.addControl(draw);
+
+            var slider = document.getElementById('slider');
+
+              // Crear el control deslizante utilizando noUiSlider
+              noUiSlider.create(slider, {
+                  start: [100],
+                  step: 100,
+                  range: {
+                      'min': 100,
+                      'max': 2000
+                  },
+                  pips: {
+                      mode: 'values',
+                      values: [100, 500, 1000, 1500, 2000],
+                      density: 4
+                  }
+              });
+
+
+
+              // Obtener el valor del control deslizante cuando cambia
+             /* slider.noUiSlider.on('update', function (values, handle) {
+                  let distance = values[handle];
+                  console.log('Distancia seleccionada: ' + distance);
+                });*/
+
+           /* function updatelayerlist(LayersId){
+              for (const id of LayersId) {
+                // Skip layers that already have a button set up.
+                if (document.getElementById(id)) {
+                continue;
+                }
+              }
+            }*/
+
+            map.on('draw.create', function(e) {
+                var type = e.features[0].geometry.type;
+                var coordinates = e.features[0].geometry.coordinates;
+                console.log(type, coordinates);
+                var geoJsonString = JSON.stringify(e.features[0]);
+
+                //console.log(geoJsonString);
+                
+
+                                // Obtener el nombre del archivo desde el cuadro de diálogo
+                  var fileName = prompt("Ingrese el nombre del proyecto:");
+
+                  // Convertir objeto GeoJSON en una cadena JSON
+                  //var geoJsonString = JSON.stringify(e.features[0].toGeoJSON());
+
+                  // Enviar la cadena al servidor utilizando AJAX
+                 /* $.ajax({
+                    url: 'saveproject.php',
+                    method: 'POST',
+                    data: { fileName: fileName, geoJsonString: geoJsonString },
+                    success: function(response) {
+                      alert("El archivo se ha guardado exitosamente.");
+                    },
+                    error: function(xhr, status, error) {
+                      alert("Ocurrió un error al guardar el archivo.");
+                    }
+                  });*/
+
+                updateArea();
+                createCircles(coordinates);
+              });
+            
+            map.on('draw.update', function(e) {
+                var type = e.features[0].geometry.type;
+                var coordinates = e.features[0].geometry.coordinates;
+                console.log(type, coordinates);
+                updateArea();
+                updateCircles(coordinates);
+            });
+            
+            map.on('draw.delete', function(e) {
+                console.log('drawing deleted');
+                updateArea();
+                deleteCircles();
+            });
+
+          /*  map.on('idle',()=>{
+
+              for (const id of LayersId) {
+                // Skip layers that already have a button set up.
+                if (document.getElementById(id)) {
+                continue;
+                }
+              }
+
+              // Create a link.
+              const link = document.createElement('a');
+              link.id = id;
+              link.href = '#';
+              link.textContent = id;
+              link.className = 'active';
+              
+              // Show or hide layer when the toggle is clicked.
+              link.onclick = function (e) {
+                const clickedLayer = this.textContent;
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const visibility = map.getLayoutProperty(
+                  clickedLayer,
+                  'visibility'
+                );
+                
+                // Toggle layer visibility by changing the layout object's visibility property.
+                if (visibility === 'visible') {
+                  map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+                  this.className = '';
+                } else {
+                  this.className = 'active';
+                  map.setLayoutProperty(
+                  clickedLayer,
+                  'visibility',
+                  'visible'
+                  );
+                }
+              };
+              
+              const layers = document.getElementById('menu');
+              layers.appendChild(link);
+            });*/
+
+            // Create a function to update the area and search for amenities
+            function updateArea(e) {
+                const data = draw.getAll();
+                const answer = document.getElementById('calculated-area');
+                let coordenadas;
+                //var convertedData = 'text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(data));
+
+                //console.log(convertedData);
+
+                // Verificar si el layer existe antes de intentar eliminarlo
+                if (map.getLayer('amenities')) {
+                    map.removeLayer('amenities');
+                    var amenitiesCount = document.getElementById('amenities-count');
+                    amenitiesCount.innerHTML = '';
+                    if (map.getSource('amenities')){
+                          map.removeSource('amenities')
+                        }
+                    //countAmenities(amenityCounts);
+                    console.log("Existe amenities")
+                }
+
+                 // Verificar si el layer existe antes de intentar eliminarlo
+                 if (map.getLayer('shops')) {
+                    map.removeLayer('shops');
+                    var shopsCount = document.getElementById('shop-count');
+                    shopsCount.innerHTML = '';
+                    if (map.getSource('shops')) {
+                      map.removeSource('shops')
+                    }
+                   //countAmenities(amenityCounts);
+                    console.log("Existe shops")
+                }
+
+                 // Verificar si el layer existe antes de intentar eliminarlo
+                 if (map.getLayer('leisures')) {
+                    map.removeLayer('leisures');
+                    var leisuresCount = document.getElementById('leisures-count');
+                    leisuresCount.innerHTML = '';
+                    if (map.getSource('leisures')) {
+                      map.removeSource('leisures');
+                    }
+                    //countAmenities(amenityCounts);
+                    console.log("Existe leisures")
+                }
+
+                deleteCircles();
+                let distancevalue;
+
+                slider.noUiSlider.on('update', function (values, handle) {
+                    var distance = values[handle];
+                    distancevalue = distance;
+                    //return distance;
+                    console.log('Distancia seleccionada: ' + distance);
+                  });
+
+
+                if (data.features.length > 0) {
+                    // Calculate the area of the drawn polygon
+                    const area = turf.area(data);
+                    // Calculate the centroid of the drawn polygon
+                    const centro = turf.centroid(data).geometry.coordinates;
+                    // Transform the centroid to lat-lon format
+                    coordenadas = centro.map(coord => [coord[1], coord[0]]);
+                    console.log("coordeandas", coordenadas);
+                    // Search for amenities near the centroid
+                    searchShop(centro, distancevalue);
+                    searchAmenities(centro, distancevalue);
+                    searchleisure(centro, distancevalue);
+                    // Restrict the area to 2 decimal points.
+                    const rounded_area = Math.round(area * 100) / 100;
+                    answer.innerHTML = `<p>Area: <strong>${rounded_area}</strong> m2</p>`;
+                } else {
+                    answer.innerHTML = '';
+                    if (e.type !== 'draw.delete') {
+                        alert('Click the map to draw a polygon.');
+                    }
+                }
+              }
+
+            // Definir un conjunto de colores para los círculos
+            var colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#FFA500', '#008000', '#800080', '#808080'];
+
+            // Lista para guardar las capas de círculos
+            var circleLayers = [];
+
+            function createCircles(coordinates) {
+                // Eliminar círculos existentes
+                deleteCircles();
+            
+                // Crear círculos concéntricos de 100m a 1000m de distancia
+                var center = turf.centroid(turf.polygon(coordinates)).geometry.coordinates;
+                for (var i = 4; i >= 1; i--) {
+                    var radius = i * 250;
+                    var circle = turf.circle(center, radius, {steps: 64, units: 'meters'});
+                    var color = colors[i % colors.length];
+                    var layer = {
+                        id: 'circle-' + i,
+                        type: 'fill',
+                        source: {
+                            type: 'geojson',
+                            data: circle
+                        },
+                        paint: {
+                            'fill-color': color,
+                            'fill-opacity': 0.15,
+                        }
+                    };
+                    map.addLayer(layer);
+                    circleLayers.push(layer);
+                }
+            }
+
+            function updateCircles(coordinates) {
+              //deleteCircles()
+              // Actualizar círculos existentes con las nuevas coordenadas
+              var center = turf.centroid(turf.polygon(coordinates)).geometry.coordinates;
+              for (var i = 4; i >= 1; i--) {
+                var circleId = 'circle-' + i;
+                var distance = i * 250;
+                var circle = turf.circle(center, distance, {steps: 64, units: 'meters'});
+                var color = colors[i % colors.length];
+                  
+                // Verificar si el círculo ya existe
+                if (map.getLayer(circleId)) {
+                  map.getSource(circleId).setData(circle);
+                  } else {
+                  // Crear el círculo
+                  map.addLayer({
+                      id: circleId,
+                      type: 'fill',
+                      source: {
+                      type: 'geojson',
+                      data: circle
+                      },
+                      paint: {
+                        'fill-color': color,
+                        'fill-opacity': 0.15,
+                      }
+                  });
+                }
+              }
+            }
+
+            function deleteCircles() {
+                var layers = map.getStyle().layers;
+                console.log(layers);
+                layers.forEach(function(layer) {
+                    if (layer.id.startsWith('circle-')) {
+                    map.removeLayer(layer.id);
+                    }
+                    if (layer.id.startsWith('circle-label-')) {
+                    map.removeLayer(layer.id);
+                    }
+                    if (layer.id.startsWith('circle-line-')) {
+                    map.removeLayer(layer.id);
+                    }
+                  });
+                }
+
+            function searchShop(bounds, distancev) {
+
+              var valorcriterio1 = document.getElementById('CriterioBusqueda1');
+              var value1 = valorcriterio1.options[valorcriterio1.selectedIndex].value;
+              const criterio1H6 = document.querySelector('.col-lg-4:nth-child(1) h6');
+              criterio1H6.textContent = value1;
+              
+              //console.log(distancev);
+                var query = `[out:json][timeout:25];
+                    node[${value1}](around:${distancev},${bounds[1]},${bounds[0]});
+                out body;
+                >;
+                out skel qt;`;      
+                console.log(bounds);
+                console.log(query);          
+
+                // Nueva variable para almacenar los resultados
+                var shopCounts = {};
+
+                $.ajax({
+                    url: 'https://z.overpass-api.de/api/interpreter',
+                    type: 'POST',
+                    data: { data: query },
+                    dataType: 'json',
+                    success: function(data) {
+                    var shops = [];
+
+                    data.elements.forEach(function(element) {
+                        if (element.tags.shop) {
+                        var shop = element.tags.shop;
+                        shops.push({
+                            type: 'Feature',
+                            geometry: {
+                            type: 'Point',
+                            coordinates: [element.lon, element.lat]
+                            },
+                            properties: {
+                            shop: element.tags.shop
+                            }
+                        });
+
+                        // Incrementar el contador del tipo de amenidad
+                        if (!shopCounts[shop]) {
+                            shopCounts[shop] = 1;
+                        } else {
+                            shopCounts[shop]++;
+                        }
+
+                        
+                        }
+                    });
+
+                    console.log(shopCounts)
+
+                     // Add a layer to the map to display the amenities
+                     map.addLayer({
+                            id: 'shops',
+                            type: 'circle',
+                            source: {
+                            type: 'geojson',
+                            data: {
+                                type: 'FeatureCollection',
+                                features: shops
+                            }
+                            },
+                            paint: {
+                            'circle-radius': 6,
+                            'circle-color': '#FF5733'
+                            }
+                        });
+
+                        countShops(shopCounts);
+
+                    },
+                    error: function(error) {
+                        alert('No se pudieron encontrar comercios cercanos.');
+                    }
+                });
+            }
+
+          // Suponiendo que la variable amenityCounts contiene el objeto con los conteos de las amenidades
+          function countShops(shopCounts) {
+            var table = document.getElementById('shop-count');
+                for (var type in shopCounts) {
+                    var count = shopCounts[type];
+                    var row = document.createElement('div');
+                    row.classList.add('shop-row');
+                    var name = document.createElement('span');
+                    name.classList.add('shop-name');
+                    name.textContent = type;
+                    row.appendChild(name);
+                    var value = document.createElement('span');
+                    value.classList.add('shop-value');
+                    value.textContent = count;
+                    row.appendChild(value);
+                    table.appendChild(row);
+                }
+          }
+
+          function searchAmenities(bounds, distancev) {
+
+            var valorcriterio1 = document.getElementById('CriterioBusqueda2');
+            var value1 = valorcriterio1.options[valorcriterio1.selectedIndex].value;
+            const criterio2H6 = document.querySelector('.col-lg-4:nth-child(2) h6');
+            criterio2H6.textContent = value1;
+              
+            var query = `[out:json][timeout:25];
+              node[${value1}](around:${distancev},${bounds[1]},${bounds[0]});
+              out body;
+              >;
+              out skel qt;`; 
+
+            console.log(bounds);
+            console.log(query);          
+
+            // Nueva variable para almacenar los resultados
+            var amenityCounts = {};
+
+            $.ajax({
+              url: 'https://z.overpass-api.de/api/interpreter',
+              type: 'POST',
+              data: { data: query },
+              dataType: 'json',
+              success: function(data) {
+                var amenities = [];
+
+                data.elements.forEach(function(element) {
+                  if (element.tags.amenity) {
+                    var amenity = element.tags.amenity;
+                    amenities.push({
+                      type: 'Feature',
+                      geometry: {
+                        type: 'Point',
+                        coordinates: [element.lon, element.lat]
+                      },
+                      properties: {
+                        amenity: element.tags.amenity
+                      }
+                    });
+
+                    // Incrementar el contador del tipo de amenidad
+                    if (!amenityCounts[amenity]) {
+                      amenityCounts[amenity] = 1;
+                    } else {
+                      amenityCounts[amenity]++;
+                    }
+                  }
+                });
+
+                console.log(amenityCounts)
+
+                // Add a layer to the map to display the amenities
+                map.addLayer({
+                  id: 'amenities',
+                  type: 'circle',
+                  source: {
+                    type: 'geojson',
+                    data: {
+                      type: 'FeatureCollection',
+                      features: amenities
+                    }
+                  },
+                  paint: {
+                    'circle-radius': 6,
+                    'circle-color': '#001bff'
+                  }
+                });
+
+                countAmenities(amenityCounts);
+
+              },
+                error: function(error) {
+                  alert('No se pudieron encontrar amenidades cercanas.');
+                }
+            });
+          }
+
+          // Suponiendo que la variable amenityCounts contiene el objeto con los conteos de las amenidades
+          function countAmenities(amenityCounts) {
+            var table = document.getElementById('amenities-count');
+                for (var type in amenityCounts) {
+                    var count = amenityCounts[type];
+                    var row = document.createElement('div');
+                    row.classList.add('amenity-row');
+                    var name = document.createElement('span');
+                    name.classList.add('amenity-name');
+                    name.textContent = type;
+                    row.appendChild(name);
+                    var value = document.createElement('span');
+                    value.classList.add('amenity-value');
+                    value.textContent = count;
+                    row.appendChild(value);
+                    table.appendChild(row);
+                }
+          }
+
+          function searchleisure(bounds,distancev) {
+            var valorcriterio1 = document.getElementById('CriterioBusqueda3');
+            var value1 = valorcriterio1.options[valorcriterio1.selectedIndex].value;
+            const criterio3H6 = document.querySelector('.col-lg-4:nth-child(3) h6');
+            criterio3H6.textContent = value1;
+
+            var query = `[out:json][timeout:25];
+              node[${value1}](around:${distancev},${bounds[1]},${bounds[0]});
+              out body;
+              >;
+              out skel qt;`; 
+
+            console.log(bounds);
+            console.log(query);          
+
+            // Nueva variable para almacenar los resultados
+            var leisureCounts = {};
+
+            $.ajax({
+              url: 'https://z.overpass-api.de/api/interpreter',
+              type: 'POST',
+              data: { data: query },
+              dataType: 'json',
+              success: function(data) {
+                var leisures = [];
+
+                data.elements.forEach(function(element) {
+                  if (element.tags.leisure) {
+                    var leisure = element.tags.leisure;
+                    leisures.push({
+                      type: 'Feature',
+                      geometry: {
+                        type: 'Point',
+                        coordinates: [element.lon, element.lat]
+                      },
+                      properties: {
+                        leisure: element.tags.leisure
+                      }
+                    });
+
+                    // Incrementar el contador del tipo de amenidad
+                    if (!leisureCounts[leisure]) {
+                      leisureCounts[leisure] = 1;
+                    } else {
+                      leisureCounts[leisure]++;
+                    }
+
+                        
+                  }
+                });
+
+                console.log(leisureCounts)
+
+                // Add a layer to the map to display the leisures
+                map.addLayer({
+                  id: 'leisures',
+                  type: 'circle',
+                  source: {
+                    type: 'geojson',
+                    data: {
+                      type: 'FeatureCollection',
+                      features: leisures
+                    }
+                  },
+                  paint: {
+                    'circle-radius': 6,
+                    'circle-color': '#36FF33'
+                  }
+                });
+
+                countleisures(leisureCounts);
+
+              },
+                error: function(error) {
+                  alert('No se pudieron encontrar amenidades cercanas.');
+                }
+            });
+          }
+
+          // Suponiendo que la variable amenityCounts contiene el objeto con los conteos de las amenidades
+          function countleisures(leisureCounts) {
+            var table = document.getElementById('leisures-count');
+                for (var type in leisureCounts) {
+                    var count = leisureCounts[type];
+                    var row = document.createElement('div');
+                    row.classList.add('leisure-row');
+                    var name = document.createElement('span');
+                    name.classList.add('leisure-name');
+                    name.textContent = type;
+                    row.appendChild(name);
+                    var value = document.createElement('span');
+                    value.classList.add('leisure-value');
+                    value.textContent = count;
+                    row.appendChild(value);
+                    table.appendChild(row);
+                }
+          }
+
+
+    </script>
+</body>
+
 </html>
