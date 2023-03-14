@@ -1054,7 +1054,8 @@
             function searchShop(bounds, distancev) {
 
               var valorcriterio1 = document.getElementById('CriterioBusqueda1');
-              var value1 = valorcriterio1.options[valorcriterio1.selectedIndex].value;
+              //var value1 = valorcriterio1.options[valorcriterio1.selectedIndex].value;
+              value1= 'shop';
               const criterio1H6 = document.querySelector('.col-lg-4:nth-child(1) h6');
               criterio1H6.textContent = value1;
               
@@ -1153,7 +1154,8 @@
           function searchAmenities(bounds, distancev) {
 
             var valorcriterio1 = document.getElementById('CriterioBusqueda2');
-            var value1 = valorcriterio1.options[valorcriterio1.selectedIndex].value;
+            //var value1 = valorcriterio1.options[valorcriterio1.selectedIndex].value;
+            value1 = 'amenity';
             const criterio2H6 = document.querySelector('.col-lg-4:nth-child(2) h6');
             criterio2H6.textContent = value1;
               
@@ -1249,7 +1251,8 @@
 
           function searchleisure(bounds,distancev) {
             var valorcriterio1 = document.getElementById('CriterioBusqueda3');
-            var value1 = valorcriterio1.options[valorcriterio1.selectedIndex].value;
+            //var value1 = valorcriterio1.options[valorcriterio1.selectedIndex].value;
+            value1 = 'leisure';
             const criterio3H6 = document.querySelector('.col-lg-4:nth-child(3) h6');
             criterio3H6.textContent = value1;
 
